@@ -12,7 +12,7 @@ let highlights=L.geoJSON(null,{onEachFeature:(f,layer)=>{if(f.properties.Statut!
 function focus(feature){if(feature.geometry.type==='Point'){const ll=L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);map.setView(ll,Math.max(map.getZoom(),13));}else map.fitBounds(L.geoJSON(feature).getBounds(),{padding:[35,35],maxZoom:15});}
 let currentMatches=[],currentKeys=[],currentLayer='',equipmentActive=false,restoreLocalities=false;
 function restoreEquipmentLayer(){if(equipmentActive&&restoreLocalities)map.addLayer(cluster_Localit_6);equipmentActive=false;restoreLocalities=false;}
-function zoomOverview(){const bounds=bounds_group.getBounds();if(bounds.isValid())map.fitBounds(bounds,{padding:[20,20]});else text($('mapStatus'),'Aucune géométrie disponible. Ajoutez ou importez des entités depuis Mise à jour.');}
+function zoomOverview(){map.invalidateSize({pan:false});map.options.zoomSnap=0.1;const bounds=bounds_group.getBounds();if(bounds.isValid())map.fitBounds(bounds,{padding:[14,14]});else text($('mapStatus'),'Aucune géométrie disponible. Ajoutez ou importez des entités depuis Mise à jour.');}
 function resizeMap(){requestAnimationFrame(()=>map.invalidateSize());}
 function clearResults(){restoreEquipmentLayer();currentMatches=[];currentKeys=[];$('exportCsv').disabled=true;$('results').hidden=true;$('resultsTable').replaceChildren();map.removeLayer(highlights);resizeMap();}
 $('closeResults').onclick=clearResults;
